@@ -1,0 +1,10 @@
+extends layout.pug
+include mixins/video
+
+block content 
+    h2 Welcome here u will see trending videos
+
+    each video in videos 
+        +video(video)
+    else 
+        li sorry nothing found
