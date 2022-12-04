@@ -101,6 +101,19 @@ export const finishGithubLogin = async (req, res) => {
         },
       })
     ).json();
+    const emailData = await (
+      await fetch(`${apiUrl}/user/emails`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      })
+    ).json();
+    const emailObj = emailData.find(
+      (email) => email.primary === true && email.verified === true
+    );
+    if (!emailObj) {
+      return res.redirect('/login');
+    }
   } else {
     return res.redirect('/login');
   }
