@@ -144,8 +144,53 @@ export const getEdit = (req, res) => {
   res.render('edit-profile', { pageTitle: 'Edit Profile' });
 };
 
-export const postEdit = (req, res) => {
-  res.render('edit-profile');
+export const postEdit = async (req, res) => {
+  const {
+    session: {
+      user: {
+        _id,
+        avatarUrl,
+        location: sessionLocation,
+        email: sessionEmail,
+        username: sessionUsername,
+      },
+    },
+    body: { name, email, username, location },
+  } = req;
+
+  let searchParam = [];
+  if (sessionEmail !== email) {
+    searchParam.push({ email });
+  }
+  if (sessionUsername !== username) {
+    searchParam.push({ username });
+  }
+  if (sessionLocation !== location) {
+    searchParam.push({ location });
+  }
+
+  if (searchParam.length > 0) {
+    const foundUser = await User.findOne({ $or: searchParam });
+    console.log(foundUser);
+    if (foundUser && foundUser._id.toString() !== _id) {
+      return res.status(400).render('edit-profile', {
+        pageTitle: 'Edit Profile',
+        errorMessage: 'This username/email is already taken.',
+      });
+    }
+  }
+  const updatedUser = await User.findByIdAndUpdate(
+    _id,
+    {
+      name,
+      email,
+      username,
+      location,
+    },
+    { new: true }
+  );
+  req.session.user = updatedUser;
+  res.redirect('/users/edit');
 };
 
 export const see = (req, res) => res.send('See');
