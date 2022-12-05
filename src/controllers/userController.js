@@ -149,12 +149,14 @@ export const postEdit = async (req, res) => {
     session: {
       user: {
         _id,
+        avatarUrl,
         location: sessionLocation,
         email: sessionEmail,
         username: sessionUsername,
       },
     },
     body: { name, email, username, location },
+    file,
   } = req;
 
   let searchParam = [];
@@ -177,9 +179,11 @@ export const postEdit = async (req, res) => {
       });
     }
   }
+
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
