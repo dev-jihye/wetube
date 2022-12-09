@@ -1,11 +1,14 @@
 const video = document.querySelector('video');
 const playBtn = document.getElementById('play');
+const playBtnIcon = playBtn.querySelector('i');
 const muteBtn = document.getElementById('mute');
+const muteBtnIcon = muteBtn.querySelector('i');
 const volumeRange = document.getElementById('volume');
 const currentTime = document.getElementById('currentTime');
 const totalTime = document.getElementById('totalTime');
 const timeline = document.getElementById('timeline');
 const fullscreenBtn = document.getElementById('fullscreen');
+const fullscreenIcon = fullscreenBtn.querySelector('i');
 const videoContainer = document.getElementById('videoContainer');
 const videoControls = document.getElementById('videoControls');
 
@@ -19,7 +22,7 @@ const handlePlayClick = (e) => {
   } else {
     video.pause();
   }
-  playBtn.innerText = video.paused ? 'Play' : 'Pause';
+  playBtnIcon.classList = video.paused ? 'fas fa-play' : 'fas fa-pause';
 };
 
 const handleMuteClick = (e) => {
@@ -29,7 +32,10 @@ const handleMuteClick = (e) => {
   } else {
     video.muted = true;
   }
-  muteBtn.innerText = video.muted ? 'Unmute' : 'Mute';
+  muteBtnIcon.classList = video.muted
+    ? 'fas fa-volume-mute'
+    : 'fas fa-volume-up';
+
   volumeRange.value = video.muted ? 0 : volumeValue;
 };
 
@@ -39,12 +45,12 @@ const handleInputVolumeRange = (event) => {
   } = event;
   if (video.muted) {
     video.muted = false;
-    muteBtn.innerText = 'Mute';
+    muteBtnIcon.classList = 'fas fa-volume-mute';
   }
 
   if (Number(value) === 0) {
     video.muted = true;
-    muteBtn.innerText = 'Unmute';
+    muteBtnIcon.classList = 'fas fa-volume-up';
   }
   video.volume = value;
 };
@@ -59,7 +65,7 @@ const handleChangeVolumeRange = (event) => {
 };
 
 const formatTime = (seconds) =>
-  new Date(seconds * 1000).toISOString().substring(11, 19);
+  new Date(seconds * 1000).toISOString().substring(14, 19);
 
 const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
@@ -82,10 +88,10 @@ const handleFullscreen = () => {
   const fullscreen = document.fullscreenElement;
   if (fullscreen) {
     document.exitFullscreen();
-    fullscreenBtn.innerText = 'Enter Fullscreen';
+    fullscreenIcon.classList = 'fas fa-expand';
   } else {
     videoContainer.requestFullscreen();
-    fullscreenBtn.innerText = 'Exit Fullscreen';
+    fullscreenIcon.classList = 'fas fa-compress';
   }
 };
 
@@ -106,6 +112,6 @@ volumeRange.addEventListener('input', handleInputVolumeRange);
 volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
 video.addEventListener('timeupdate', handleTimeUpdate);
-video.addEventListener('mousemove', handleMouseMove);
+videoContainer.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
