@@ -95,9 +95,6 @@ const handleMouseMove = () => {
     controlsTimeout = null;
   }
   videoControls.classList.add('show');
-};
-
-const handleMouseLeave = () => {
   controlsTimeout = setTimeout(() => {
     videoControls.classList.remove('show');
   }, 3000);
@@ -109,7 +106,6 @@ volumeRange.addEventListener('input', handleInputVolumeRange);
 volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
 video.addEventListener('timeupdate', handleTimeUpdate);
+video.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
-video.addEventListener('mousemove', handleMouseMove);
-video.addEventListener('mouseleave', handleMouseLeave);
