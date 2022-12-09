@@ -112,6 +112,7 @@ volumeRange.addEventListener('input', handleInputVolumeRange);
 volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
 video.addEventListener('timeupdate', handleTimeUpdate);
+video.addEventListener('click', handlePlayClick);
 videoContainer.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
