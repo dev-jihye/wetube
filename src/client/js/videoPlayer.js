@@ -121,3 +121,7 @@ document.addEventListener('keyup', (event) => {
     handlePlayClick();
   }
 });
+
+if (event.keyCode === 77) {
+  handleMuteClick();
+}
