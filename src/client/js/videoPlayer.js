@@ -116,3 +116,8 @@ video.addEventListener('click', handlePlayClick);
 videoContainer.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
+document.addEventListener('keyup', (event) => {
+  if (event.code === 'Space') {
+    handlePlayClick();
+  }
+});
