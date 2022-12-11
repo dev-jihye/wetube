@@ -106,6 +106,13 @@ const handleMouseMove = () => {
   }, 3000);
 };
 
+const handleEnded = () => {
+  const { id } = videoContainer.dataset;
+  fetch(`/api/videos/${id}/view`, {
+    method: 'POST',
+  });
+};
+
 playBtn.addEventListener('click', handlePlayClick);
 muteBtn.addEventListener('click', handleMuteClick);
 volumeRange.addEventListener('input', handleInputVolumeRange);
@@ -113,6 +120,7 @@ volumeRange.addEventListener('change', handleChangeVolumeRange);
 video.addEventListener('loadedmetadata', handleLoadedMetadata);
 video.addEventListener('timeupdate', handleTimeUpdate);
 video.addEventListener('click', handlePlayClick);
+video.addEventListener('ended', handleEnded);
 videoContainer.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
@@ -120,8 +128,8 @@ document.addEventListener('keyup', (event) => {
   if (event.code === 'Space') {
     handlePlayClick();
   }
-});
 
-if (event.keyCode === 77) {
-  handleMuteClick();
-}
+  if (event.keyCode === 77) {
+    handleMuteClick();
+  }
+});
