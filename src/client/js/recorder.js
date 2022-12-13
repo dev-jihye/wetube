@@ -54,6 +54,19 @@ const handleDownload = async () => {
 
   downloadFile(mp4Url, 'MyRecording.mp4');
   downloadFile(thumbUrl, 'MyThumbnail.jpg');
+
+  ffmpeg.FS('unlink', files.input);
+  ffmpeg.FS('unlink', files.output);
+  ffmpeg.FS('unlink', files.thumb);
+
+  URL.revokeObjectURL(mp4Url);
+  URL.revokeObjectURL(thumbUrl);
+  URL.revokeObjectURL(videoFile);
+
+  actionBtn.disabled = false;
+  init();
+  actionBtn.innerText = 'Record again';
+  actionBtn.addEventListener('click', handleStart);
 };
 
 const handleStop = () => {
