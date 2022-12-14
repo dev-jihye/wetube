@@ -11,6 +11,7 @@ const fullscreenBtn = document.getElementById('fullscreen');
 const fullscreenIcon = fullscreenBtn.querySelector('i');
 const videoContainer = document.getElementById('videoContainer');
 const videoControls = document.getElementById('videoControls');
+const textarea = document.getElementById('textarea');
 
 let controlsTimeout = null;
 let volumeValue = 0.5;
@@ -113,6 +114,18 @@ const handleEnded = () => {
   });
 };
 
+const handleKeydown = (event) => {
+  if (event.target !== textarea) {
+    if (event.code === 'Space') {
+      handlePlayClick();
+    }
+
+    if (event.keyCode === 77) {
+      handleMuteClick();
+    }
+  }
+};
+
 playBtn.addEventListener('click', handlePlayClick);
 muteBtn.addEventListener('click', handleMuteClick);
 volumeRange.addEventListener('input', handleInputVolumeRange);
@@ -124,12 +137,4 @@ video.addEventListener('ended', handleEnded);
 videoContainer.addEventListener('mousemove', handleMouseMove);
 timeline.addEventListener('input', handleTimelineChange);
 fullscreenBtn.addEventListener('click', handleFullscreen);
-document.addEventListener('keyup', (event) => {
-  if (event.code === 'Space') {
-    handlePlayClick();
-  }
-
-  if (event.keyCode === 77) {
-    handleMuteClick();
-  }
-});
+document.addEventListener('keyup', handleKeydown);
